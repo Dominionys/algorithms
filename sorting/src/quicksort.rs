@@ -25,7 +25,7 @@ pub fn quicksort_lomuto<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) {
 }
 
 #[cfg(test)]
-mod tests {
+mod tests_lomuto {
     use super::*;
 
     #[test]
@@ -58,5 +58,71 @@ mod tests {
         }
     }
     crate::base_cases!(test_quicksort_lomuto);
+}
+
+
+pub fn partition_hoare<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) -> usize {
+    let mut pivot = low;
+    let mut i = low;
+    let mut j = high;
+
+    loop {
+        while arr[i] < arr[pivot] {
+            i += 1;
+        }
+
+        while arr[j] > arr[pivot] {
+            j -= 1;
+        }
+
+        if i >= j {
+            return j;
+        }
+
+        if pivot == i {
+            pivot = j;
+        } else if pivot == j {
+            pivot = i;
+        }
+
+        arr.swap(i, j);
+
+        i += 1;
+        j -= 1;
+    }
+}
+
+
+pub fn quicksort_hoare<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) {
+    if low < high {
+        let p = partition_hoare(arr, low, high);
+        quicksort_hoare(arr, low, p);
+        quicksort_hoare(arr, p + 1, high);
+    }
+}
+
+#[cfg(test)]
+mod tests_hoare {
+    use super::*;
+
+    #[test]
+    fn partition_hoare_test() {
+        let mut arr = [8, 0, 3, 9, 2, 14, 10, 27, 1, 5, 8, -1, 26];
+
+        let low: usize = 0;
+        let high = arr.len() - 1;
+        partition_hoare(&mut arr, low, high);
+
+        let res = [-1, 0, 3, 8, 2, 5, 1, 27, 10, 14, 9, 8, 26];
+        assert_eq!(arr, res);
+    }
+
+    fn test_quicksort_hoare<T: PartialOrd>(arr: &mut [T]) {
+        if arr.len() > 1 {
+            quicksort_hoare(arr, 0, arr.len() - 1);
+        }
+    }
+
+    crate::base_cases!(test_quicksort_hoare);
 
 }
