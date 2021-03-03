@@ -1,5 +1,6 @@
 mod bubble;
 mod insertion;
+mod merge;
 mod quicksort;
 mod selection;
 mod shell;

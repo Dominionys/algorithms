@@ -60,7 +60,6 @@ mod tests_lomuto {
     crate::base_cases!(test_quicksort_lomuto);
 }
 
-
 pub fn partition_hoare<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) -> usize {
     let mut pivot = low;
     let mut i = low;
@@ -91,7 +90,6 @@ pub fn partition_hoare<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) ->
         j -= 1;
     }
 }
-
 
 pub fn quicksort_hoare<T: PartialOrd>(arr: &mut [T], low: usize, high: usize) {
     if low < high {
@@ -124,5 +122,4 @@ mod tests_hoare {
     }
 
     crate::base_cases!(test_quicksort_hoare);
-
 }
