@@ -1,5 +1,5 @@
 [package]
-name = "sorting"
+name = "queues"
 version = "0.1.0"
 authors = ["Dominionys <denis_bezrukov@mail.ru>"]
 edition = "2018"
