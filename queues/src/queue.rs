@@ -45,73 +45,73 @@ mod tests {
 
     #[test]
     fn test_empty() {
-        let mut stack: Queue<i32> = Queue::new();
+        let mut queue: Queue<i32> = Queue::new();
 
-        assert_eq!(stack.is_empty(), true);
-        assert_eq!(stack.size(), 0);
-        assert_eq!(stack.peek(), None);
-        assert_eq!(stack.dequeue(), None);
+        assert_eq!(queue.is_empty(), true);
+        assert_eq!(queue.size(), 0);
+        assert_eq!(queue.peek(), None);
+        assert_eq!(queue.dequeue(), None);
     }
 
     #[test]
     fn test_one_element() {
-        let mut stack: Queue<i32> = Queue::new();
+        let mut queue: Queue<i32> = Queue::new();
 
-        stack.enqueue(123);
+        queue.enqueue(123);
 
-        assert_eq!(stack.is_empty(), false);
-        assert_eq!(stack.size(), 1);
-        assert_eq!(stack.peek(), Some(&123));
+        assert_eq!(queue.is_empty(), false);
+        assert_eq!(queue.size(), 1);
+        assert_eq!(queue.peek(), Some(&123));
 
-        let result = stack.dequeue();
+        let result = queue.dequeue();
 
         assert_eq!(result, Some(123));
-        assert_eq!(stack.is_empty(), true);
-        assert_eq!(stack.size(), 0);
-        assert_eq!(stack.peek(), None);
-        assert_eq!(stack.dequeue(), None);
+        assert_eq!(queue.is_empty(), true);
+        assert_eq!(queue.size(), 0);
+        assert_eq!(queue.peek(), None);
+        assert_eq!(queue.dequeue(), None);
     }
 
     #[test]
     fn test_two_element() {
-        let mut stack: Queue<i32> = Queue::new();
+        let mut queue: Queue<i32> = Queue::new();
 
-        stack.enqueue(123);
-        stack.enqueue(456);
+        queue.enqueue(123);
+        queue.enqueue(456);
 
-        assert_eq!(stack.is_empty(), false);
-        assert_eq!(stack.size(), 2);
-        assert_eq!(stack.peek(), Some(&123));
+        assert_eq!(queue.is_empty(), false);
+        assert_eq!(queue.size(), 2);
+        assert_eq!(queue.peek(), Some(&123));
 
-        let result = stack.dequeue();
+        let result = queue.dequeue();
 
         assert_eq!(result, Some(123));
-        assert_eq!(stack.is_empty(), false);
-        assert_eq!(stack.size(), 1);
-        assert_eq!(stack.peek(), Some(&456));
+        assert_eq!(queue.is_empty(), false);
+        assert_eq!(queue.size(), 1);
+        assert_eq!(queue.peek(), Some(&456));
 
-        let result = stack.dequeue();
+        let result = queue.dequeue();
 
         assert_eq!(result, Some(456));
-        assert_eq!(stack.is_empty(), true);
-        assert_eq!(stack.size(), 0);
-        assert_eq!(stack.peek(), None);
-        assert_eq!(stack.dequeue(), None);
+        assert_eq!(queue.is_empty(), true);
+        assert_eq!(queue.size(), 0);
+        assert_eq!(queue.peek(), None);
+        assert_eq!(queue.dequeue(), None);
     }
 
     #[test]
     fn test_iterator() {
-        let mut stack: Queue<i32> = Queue::new();
+        let mut queue: Queue<i32> = Queue::new();
 
-        stack.enqueue(1);
-        stack.enqueue(2);
-        stack.enqueue(3);
-        stack.enqueue(4);
-        stack.enqueue(5);
-        stack.enqueue(6);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
+        queue.enqueue(5);
+        queue.enqueue(6);
 
         let mut result: Vec<i32> = Vec::new();
-        for element in stack {
+        for element in queue {
             result.push(element);
         }
 
