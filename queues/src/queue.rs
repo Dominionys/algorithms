@@ -47,7 +47,7 @@ mod tests {
     fn test_empty() {
         let mut queue: Queue<i32> = Queue::new();
 
-        assert_eq!(queue.is_empty(), true);
+        assert!(queue.is_empty());
         assert_eq!(queue.size(), 0);
         assert_eq!(queue.peek(), None);
         assert_eq!(queue.dequeue(), None);
@@ -66,10 +66,10 @@ mod tests {
         let result = queue.dequeue();
 
         assert_eq!(result, Some(123));
-        assert_eq!(queue.is_empty(), true);
+        assert!(queue.is_empty(), true);
         assert_eq!(queue.size(), 0);
-        assert_eq!(queue.peek(), None);
-        assert_eq!(queue.dequeue(), None);
+        assert!(queue.peek().is_none());
+        assert!(queue.dequeue().is_none());
     }
 
     #[test]
@@ -95,8 +95,8 @@ mod tests {
         assert_eq!(result, Some(456));
         assert_eq!(queue.is_empty(), true);
         assert_eq!(queue.size(), 0);
-        assert_eq!(queue.peek(), None);
-        assert_eq!(queue.dequeue(), None);
+        assert!(queue.peek().is_none());
+        assert!(queue.dequeue().is_none());
     }
 
     #[test]

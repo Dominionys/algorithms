@@ -24,7 +24,7 @@ impl<T> Deque<T> {
     }
 
     pub fn dequeue(&mut self) -> Option<T> {
-       self.items.pop()
+        self.items.pop()
     }
 
     pub fn dequeue_front(&mut self) -> Option<T> {
