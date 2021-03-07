@@ -168,6 +168,24 @@ impl<'a, T> Iterator for Iter<'a, T> {
     type Item = Ref<'a, T>;
 
     fn next(&mut self) -> Option<Self::Item> {
+        None
+        // self.next.take().map(|node_ref| {
+        //     let (next, element) = Ref::map_split(node_ref, |node| {
+        //         (&node.next, &node.element)
+        //     });
+        //
+        //     self.next = if next.is_some() {
+        //         Some(Ref::map(next, |next| &**next.as_ref().unwrap()))
+        //     } else {
+        //         None
+        //     };
+            // self.next = next.as_ref().map(|node| node.borrow());
+            // self.next = node_ref.next.as_ref().map(|node| node.borrow());
+            // Ref::map(node_ref, |node| &node.element)
+            // element
+        // })
+
+        // return None;
         // self.next.take().map(|node| {
         //
         // })
@@ -181,7 +199,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
         //     // self.next = node.next;
         // });
 
-        return None;
+        // return None;
     }
 }
 
