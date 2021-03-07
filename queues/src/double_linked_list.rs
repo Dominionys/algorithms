@@ -1,7 +1,8 @@
 use std::cell::{Ref, RefCell, RefMut};
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
+type WeakLink<T> = Option<Weak<RefCell<Node<T>>>>;
 
 pub struct List<T> {
     head: Link<T>,
@@ -10,8 +11,8 @@ pub struct List<T> {
 
 struct Node<T> {
     element: T,
-    prev: Link<T>,
     next: Link<T>,
+    prev: WeakLink<T>,
 }
 
 impl<T> Node<T> {
@@ -37,7 +38,7 @@ impl<T> List<T> {
 
         match self.head.take() {
             Some(old_head) => {
-                old_head.borrow_mut().prev = Some(new_head.clone());
+                old_head.borrow_mut().prev = Some(Rc::downgrade(&new_head));
                 new_head.borrow_mut().next = Some(old_head);
                 self.head = Some(new_head);
             }
@@ -83,7 +84,7 @@ impl<T> List<T> {
         match self.tail.take() {
             Some(old_tail) => {
                 old_tail.borrow_mut().next = Some(new_tail.clone());
-                new_tail.borrow_mut().prev = Some(old_tail);
+                new_tail.borrow_mut().prev = Some(Rc::downgrade(&old_tail));
                 self.tail = Some(new_tail);
             }
             None => {
@@ -97,8 +98,10 @@ impl<T> List<T> {
         self.tail.take().map(|tail| {
             match tail.borrow_mut().prev.take() {
                 Some(new_tail) => {
-                    new_tail.borrow_mut().next.take();
-                    self.tail = Some(new_tail);
+                    new_tail.upgrade().map(|new_tail| {
+                        new_tail.borrow_mut().next.take();
+                        self.tail = Some(new_tail);
+                    });
                 }
                 None => {
                     self.head.take();
