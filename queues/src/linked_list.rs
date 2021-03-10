@@ -1,3 +1,7 @@
+use std::ops::Deref;
+use std::option::Option::Some;
+
+//https://rust-unofficial.github.io/too-many-lists/
 type Link<T> = Option<Box<Node<T>>>;
 
 pub struct List<T> {
@@ -36,6 +40,23 @@ impl<T> List<T> {
 
     pub fn peek_mut(&mut self) -> Option<&mut T> {
         self.head.as_mut().map(|node| &mut node.element)
+    }
+}
+
+impl<T> List<T> {
+    pub fn reverse(&mut self) {
+        let mut current_node = self.head.take();
+        let mut prev_node: Option<Box<Node<T>>> = None;
+
+        while let Some(ref mut boxed_node) = current_node {
+            let next_node = boxed_node.next.take();
+            boxed_node.next = prev_node.take();
+
+            prev_node = current_node;
+            current_node = next_node;
+        }
+
+        self.head = prev_node;
     }
 }
 
@@ -210,5 +231,27 @@ mod test {
         assert_eq!(iter.next(), Some(&mut 12));
         assert_eq!(iter.next(), Some(&mut 8));
         assert_eq!(iter.next(), Some(&mut 4));
+    }
+
+    #[test]
+    fn reverse() {
+        let mut list = List::new();
+        list.push(1);
+        list.push(2);
+        list.push(3);
+
+        let mut iter = list.iter();
+        assert_eq!(iter.next(), Some(&3));
+        assert_eq!(iter.next(), Some(&2));
+        assert_eq!(iter.next(), Some(&1));
+
+        list.reverse();
+
+        let mut iter = list.into_iter();
+
+        assert_eq!(iter.next(), Some(1));
+        assert_eq!(iter.next(), Some(2));
+        assert_eq!(iter.next(), Some(3));
+        assert_eq!(iter.next(), None);
     }
 }

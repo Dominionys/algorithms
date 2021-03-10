@@ -159,7 +159,7 @@ pub struct Iter<'a, T> {
 impl<T> List<T> {
     pub fn iter(&self) -> Iter<T> {
         Iter {
-            next: self.head.as_ref().map(|head| head.borrow())
+            next: self.head.as_ref().map(|head| head.borrow()),
         }
     }
 }
@@ -179,10 +179,10 @@ impl<'a, T> Iterator for Iter<'a, T> {
         //     } else {
         //         None
         //     };
-            // self.next = next.as_ref().map(|node| node.borrow());
-            // self.next = node_ref.next.as_ref().map(|node| node.borrow());
-            // Ref::map(node_ref, |node| &node.element)
-            // element
+        // self.next = next.as_ref().map(|node| node.borrow());
+        // self.next = node_ref.next.as_ref().map(|node| node.borrow());
+        // Ref::map(node_ref, |node| &node.element)
+        // element
         // })
 
         // return None;

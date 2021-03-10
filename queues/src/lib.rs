@@ -4,3 +4,4 @@ mod linked_list;
 mod persistent_stack;
 mod queue;
 mod stack;
+mod unsafe_queue;
