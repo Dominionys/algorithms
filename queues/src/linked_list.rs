@@ -1,3 +1,4 @@
+use std::fmt::{Debug, Display};
 use std::ops::Deref;
 use std::option::Option::Some;
 
@@ -57,6 +58,28 @@ impl<T> List<T> {
         }
 
         self.head = prev_node;
+    }
+}
+
+impl<T> List<T> {
+    pub fn remove_by_index(&mut self, index: usize) -> Option<T> {
+        let mut current_index: usize = 0;
+        let mut current_node = &mut self.head;
+
+        while current_index != index {
+            current_node = match current_node {
+                Some(node) => &mut node.next,
+                None => {
+                    return None;
+                }
+            };
+            current_index += 1;
+        }
+
+        current_node.take().map(|node| *node).map(|node| {
+            *current_node = node.next;
+            node.element
+        })
     }
 }
 
@@ -253,5 +276,20 @@ mod test {
         assert_eq!(iter.next(), Some(2));
         assert_eq!(iter.next(), Some(3));
         assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn remove_by_index() {
+        let mut list = List::new();
+        list.push(1);
+        list.push(2);
+        list.push(3);
+
+        let v = list.remove_by_index(1);
+        assert_eq!(v, Some(2));
+
+        let mut iter = list.iter();
+        assert_eq!(iter.next(), Some(&3));
+        assert_eq!(iter.next(), Some(&1));
     }
 }

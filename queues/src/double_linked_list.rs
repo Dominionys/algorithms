@@ -1,4 +1,5 @@
 use std::cell::{Ref, RefCell, RefMut};
+use std::ops::Deref;
 use std::rc::{Rc, Weak};
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
@@ -121,6 +122,53 @@ impl<T> List<T> {
         self.tail
             .as_ref()
             .map(|node| RefMut::map(node.borrow_mut(), |node| &mut node.element))
+    }
+}
+
+impl<T> List<T> {
+    pub fn reverse(&mut self) {
+        let current_node = self.head.as_ref().map(|node| node.borrow());
+
+        // let mut next_node = current_node.and_then(|node| node.next.as_ref());
+
+        // let c = current_node.map(|node| RefMut::map(node.borrow_mut(), |node| &mut node.next));
+
+        // while let Some(node) = current_node {
+        //     let c = node.deref();
+        // }
+
+        // let mut current_node = self.head.take();
+        //
+        // self.tail = current_node.clone();
+        //
+        // while let Some(ref rc_node) = current_node {
+        //     let mut node = rc_node.as_ref().borrow_mut();
+        //
+        //     match node.next.as_ref() {
+        //         Some(rc_next_node) => {
+        //             let next_node = rc_next_node.as_ref().borrow_mut();
+        //             next_node.next = Some(rc_node.clone());
+        //             node.prev = Some(Rc::downgrade(rc_next_node));
+        //
+        //             let c = current_node.and_then(|some_node| some_node.as_ref().into_inner().next);
+        //
+        //             current_node = c;
+        //
+        //             // current_node = Some(rc_next_node);
+        //             // current_node = Some(rc_next_node);
+        //         }
+        //         None => {
+        //             node.prev = None;
+        //             current_node = None;
+        //         }
+        //     }
+        //
+        //     // node.borrow_mut().next = node.borrow().prev;
+        //     // let mut next_node = node.as_ref().take().next;
+        //     // let c = next_node.take();
+        // }
+        //
+        // self.head = current_node.clone();
     }
 }
 
